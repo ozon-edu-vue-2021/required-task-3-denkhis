@@ -3,14 +3,17 @@
     <h3>Карта офиса</h3>
 
     <div v-if="!isLoading" class="map-root">
-      <!-- map -->
+      <map-svg />
     </div>
     <div v-else>Loading...</div>
   </div>
 </template>
 
 <script>
+import MapSvg from "@/assets/images/map.svg";
+
 export default {
+  components: { MapSvg },
   data() {
     return {
       isLoading: false,
