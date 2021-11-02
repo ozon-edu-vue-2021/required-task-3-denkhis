@@ -15,6 +15,7 @@ import MapSvg from "@/assets/images/map.svg";
 import TableSvg from "@/assets/images/workPlace.svg";
 import * as d3 from "d3";
 import tables from "@/assets/data/tables.json";
+import legend from "@/assets/data/legend.json";
 
 export default {
   components: { MapSvg, TableSvg },
@@ -52,8 +53,12 @@ export default {
           .append("g")
           .attr("transform", `rotate(${table.rotate || 0})`)
           .attr("group_id", table.group_id)
-          .html(this.tableSVG.html());
-        console.log(svgTable);
+          .html(this.tableSVG.html())
+          .attr(
+            "fill",
+            legend.find((it) => it.group_id === table.group_id)?.color ??
+              "transparent"
+          );
       });
     },
   },
