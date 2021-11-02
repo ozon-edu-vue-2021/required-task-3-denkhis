@@ -3,7 +3,8 @@
     <h3>Карта офиса</h3>
 
     <div v-if="!isLoading" class="map-root">
-      <map-svg />
+      <map-svg ref="svg" />
+      <table-svg v-show="false" ref="table" />
     </div>
     <div v-else>Loading...</div>
   </div>
@@ -11,13 +12,50 @@
 
 <script>
 import MapSvg from "@/assets/images/map.svg";
+import TableSvg from "@/assets/images/workPlace.svg";
+import * as d3 from "d3";
+import tables from "@/assets/data/tables.json";
 
 export default {
-  components: { MapSvg },
+  components: { MapSvg, TableSvg },
   data() {
     return {
       isLoading: false,
+      svg: null,
+      g: null,
+      tables: [],
+      tableSVG: null,
     };
+  },
+  mounted() {
+    this.svg = d3.select(this.$refs.svg);
+    this.g = this.svg.select("g");
+    this.tableSVG = d3.select(this.$refs.table);
+    if (this.g) {
+      this.drawTables();
+    } else {
+      console.log("error");
+    }
+  },
+  methods: {
+    drawTables() {
+      const svgTablesGroup = this.g.append("g").classed("groupPlaces", true);
+
+      tables.map((table) => {
+        const svgTable = svgTablesGroup
+          .append("g")
+          .attr("transform", `translate(${table.x}, ${table.y}) scale(0.5)`)
+          .attr("id", table._id)
+          .classed("employer-place", true);
+
+        svgTable
+          .append("g")
+          .attr("transform", `rotate(${table.rotate || 0})`)
+          .attr("group_id", table.group_id)
+          .html(this.tableSVG.html());
+        console.log(svgTable);
+      });
+    },
   },
 };
 </script>

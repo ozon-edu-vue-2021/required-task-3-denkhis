@@ -2,7 +2,7 @@
   <div id="app">
     <div class="office">
       <Map />
-      <SideMenu />
+      <SideMenu v-if="false" />
     </div>
   </div>
 </template>
