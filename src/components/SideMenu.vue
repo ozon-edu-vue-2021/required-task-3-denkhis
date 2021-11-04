@@ -47,6 +47,7 @@
 <script>
 import LegendItem from "./SideMenu/LegendItem.vue";
 import PersonCard from "./SideMenu/PersonCard.vue";
+import tables from "@/assets/data/tables.json";
 import legend from "@/assets/data/legend.json";
 import draggable from "vuedraggable";
 import { Doughnut } from "vue-chartjs";
@@ -86,6 +87,9 @@ export default {
     closeProfile() {
       this.$emit("update:isUserOpenned", false);
     },
+    getTablesCount(groupId) {
+      return tables.filter((table) => table.group_id === groupId).length;
+    },
     makeChart() {
       const legendChartData = {
         labels: this.legend.map((it) => it.text),
@@ -93,7 +97,9 @@ export default {
           {
             label: "Легенда",
             backgroundColor: this.legend.map((legendItem) => legendItem.color),
-            data: this.legend.map((legendItem) => legendItem.counter),
+            data: this.legend.map((legendItem) =>
+              this.getTablesCount(legendItem.group_id)
+            ),
           },
         ],
       };
