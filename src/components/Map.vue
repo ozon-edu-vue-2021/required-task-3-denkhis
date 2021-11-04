@@ -23,16 +23,16 @@ export default {
     return {
       isLoading: false,
       svg: null,
-      g: null,
+      svgUpperGroup: null,
       tables: [],
       tableSVG: null,
     };
   },
   mounted() {
     this.svg = d3.select(this.$refs.svg);
-    this.g = this.svg.select("g");
+    this.svgUpperGroup = this.svg.select("g");
     this.tableSVG = d3.select(this.$refs.table);
-    if (this.g) {
+    if (this.svgUpperGroup) {
       this.drawTables();
     } else {
       console.log("error");
@@ -40,7 +40,9 @@ export default {
   },
   methods: {
     drawTables() {
-      const svgTablesGroup = this.g.append("g").classed("groupPlaces", true);
+      const svgTablesGroup = this.svgUpperGroup
+        .append("g")
+        .classed("groupPlaces", true);
 
       tables.map((table) => {
         const svgTable = svgTablesGroup
