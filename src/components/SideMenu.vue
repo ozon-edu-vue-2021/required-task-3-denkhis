@@ -24,7 +24,7 @@
                 :key="index"
                 :color="item.color"
                 :text="item.text"
-                :counter="item.counter"
+                :counter="getTablesCount(item.group_id)"
                 class="legend__item"
               />
             </draggable>
